@@ -1,0 +1,25 @@
+<h2>Attendance Records</h2>
+
+<table border="1">
+    <tr>
+        <th>Student</th>
+        <th>Teacher</th>
+        <th>Date</th>
+        <th>Status</th>
+    </tr>
+
+    {% for record in records %}
+    <tr>
+        <td>{{ record.student.name }}</td>
+        <td>{{ record.teacher.user.username }}</td>
+        <td>{{ record.date }}</td>
+        <td>
+            {% if record.status %}
+                Present
+            {% else %}
+                Absent
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
