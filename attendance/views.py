@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import Attendance, Teacher, Student
 from .forms import AttendanceForm
@@ -14,14 +15,19 @@ def dashboard(request):
 
     return render(request, 'dashboard.html', context)
 
-
+@login_required
+#def mark_attendance(request):
 def mark_attendance(request):
     if request.method == 'POST':
         form = AttendanceForm(request.POST)
+
         if form.is_valid():
-            attendance = form.save()
+            attendance = form.save(commit=False)
+            attendance.teacher = request.user
             attendance.save()
+
             return redirect('dashboard')
+
     else:
         form = AttendanceForm()
 
