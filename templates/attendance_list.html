@@ -1,25 +1,221 @@
-<h2>Attendance Records</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Records</title>
 
-<table border="1">
-    <tr>
-        <th>Student</th>
-        <th>Teacher</th>
-        <th>Date</th>
-        <th>Status</th>
-    </tr>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    {% for record in records %}
-    <tr>
-        <td>{{ record.student.name }}</td>
-        <td>{{ record.teacher.user.username }}</td>
-        <td>{{ record.date }}</td>
-        <td>
-            {% if record.status %}
-                Present
-            {% else %}
-                Absent
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            background:linear-gradient(135deg,#0f172a,#1e293b);
+            min-height:100vh;
+            padding:40px;
+            color:white;
+        }
+
+        .container{
+            max-width:1100px;
+            margin:auto;
+        }
+
+        .header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:30px;
+        }
+
+        .title{
+            font-size:38px;
+            font-weight:700;
+        }
+
+        .subtitle{
+            color:#94a3b8;
+            margin-top:5px;
+        }
+
+        .btn{
+            background:#3b82f6;
+            color:white;
+            text-decoration:none;
+            padding:14px 22px;
+            border-radius:14px;
+            font-weight:600;
+            transition:0.3s;
+            box-shadow:0 10px 25px rgba(59,130,246,0.4);
+        }
+
+        .btn:hover{
+            transform:translateY(-2px);
+            background:#2563eb;
+        }
+
+        .table-box{
+            background:rgba(255,255,255,0.06);
+            border:1px solid rgba(255,255,255,0.1);
+            backdrop-filter:blur(10px);
+            border-radius:22px;
+            overflow:hidden;
+            box-shadow:0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        th{
+            background:rgba(255,255,255,0.08);
+            color:#cbd5e1;
+            padding:20px;
+            text-align:left;
+            font-size:14px;
+            letter-spacing:1px;
+        }
+
+        td{
+            padding:20px;
+            border-top:1px solid rgba(255,255,255,0.06);
+            font-size:15px;
+        }
+
+        tr{
+            transition:0.3s;
+        }
+
+        tr:hover{
+            background:rgba(255,255,255,0.05);
+        }
+
+        .present{
+            background:#16a34a;
+            padding:8px 14px;
+            border-radius:50px;
+            font-size:13px;
+            font-weight:600;
+            display:inline-block;
+        }
+
+        .absent{
+            background:#dc2626;
+            padding:8px 14px;
+            border-radius:50px;
+            font-size:13px;
+            font-weight:600;
+            display:inline-block;
+        }
+
+        .empty{
+            text-align:center;
+            padding:40px;
+            color:#94a3b8;
+            font-size:18px;
+        }
+
+        @media(max-width:768px){
+
+            body{
+                padding:20px;
+            }
+
+            .header{
+                flex-direction:column;
+                gap:20px;
+                align-items:flex-start;
+            }
+
+            .title{
+                font-size:28px;
+            }
+
+            table{
+                font-size:13px;
+            }
+
+            th,td{
+                padding:14px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <div>
+            <h1 class="title">Attendance Records</h1>
+            <p class="subtitle">
+                School Attendance Management System
+            </p>
+        </div>
+
+        <a href="{% url 'mark_attendance' %}" class="btn">
+            + Mark Attendance
+        </a>
+
+    </div>
+
+    <div class="table-box">
+
+        <table>
+
+            <tr>
+                <th>Student</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Teacher</th>
+            </tr>
+
+            {% for record in records %}
+
+            <tr>
+
+                <td>{{ record.student }}</td>
+
+                <td>
+                    {% if record.status %}
+                        <span class="present">Present</span>
+                    {% else %}
+                        <span class="absent">Absent</span>
+                    {% endif %}
+                </td>
+
+                <td>{{ record.date }}</td>
+
+                <td>{{ record.teacher }}</td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="4" class="empty">
+                    No Attendance Records Found
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>
